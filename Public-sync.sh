@@ -21,10 +21,9 @@
 COLLAB_REPO="/pathto/your/FILES/"
 GIT_BRANCH="main"
 SYNC_USER=""
+SYNC_LOG="/tmp/sync.log"
 
 # --- do not edit below this line ---
-
-SYNC_LOG="/tmp/ai-collab-sync.log"
 
 run_sync() {
     echo "[$(date)] Starting sync..."
