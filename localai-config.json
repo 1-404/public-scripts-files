@@ -1,0 +1,23 @@
+{
+  "models": {
+    "fast-7b": {
+      "path": "/models/fast-7b.gguf",
+      "device": "cpu",
+      "type": "ggml"
+    },
+    "high-13b": {
+      "path": "/models/high-13b.gguf",
+      "device": "gpu",
+      "type": "gguf"
+    }
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "allow_remote": false
+  },
+  "limits": {
+    "max_concurrent_requests": 8,
+    "max_tokens_per_request": 4096
+  }
+}

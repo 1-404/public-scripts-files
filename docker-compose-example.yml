@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  localai:
+    image: localai/localai:latest
+    restart: unless-stopped
+    volumes:
+      - ./models:/models
+      - ./localai-config.json:/etc/localai/config.json:ro
+    environment:
+      - LOCALAI_CONFIG=/etc/localai/config.json
+    ports:
+      - "8080:8080"
+    devices: [] # add GPU access if needed (nvidia runtime in deployment notes)
+
+  assistant-api:
+    image: myorg/assistant-api:stable
+    restart: unless-stopped
+    env_file:
+      - ./assistant-api.env
+    volumes:
+      - ./config:/config:ro
+      - ./data:/data
+    ports:
+      - "3000:3000"
+    depends_on:
+      - localai
+
+  faiss-worker:
+    image: myorg/faiss-worker:stable
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - ./models:/models
+    env_file:
+      - ./assistant-api.env
+
+  ui:
+    image: myorg/assistant-ui:stable
+    restart: unless-stopped
+    environment:
+      - API_URL=http://SERVER_IP:3000
+    ports:
+      - "3001:80"

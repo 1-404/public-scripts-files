@@ -1,0 +1,38 @@
+# server-config.yaml
+server:
+  host: 0.0.0.0
+  port: 3000
+  local_only: true    # block outbound calls by default
+
+auth:
+  admin_password: "change_this_admin_pw"
+  jwt_secret: "replace_with_random_secret"
+  enable_signup: true
+
+models:
+  fast:
+    name: "fast-7b"
+    path: "/models/fast-7b.gguf"
+    type: "gguf"
+    device: "cpu"
+    max_tokens: 1024
+    concurrency: 4
+  high:
+    name: "high-13b"
+    path: "/models/high-13b.gguf"
+    type: "gguf"
+    device: "gpu"       # set to "cpu" if no GPU
+    max_tokens: 2048
+    concurrency: 2
+
+quotas:
+  default:
+    concurrent_chats: 2
+    requests_per_minute: 10
+    gpu_minutes_per_day: 120
+
+rag:
+  vector_store: "faiss"
+  embeddings_model: "/models/embeddings/all-miniLM-v2"
+  top_k: 6
+  namespace_per_user: true
